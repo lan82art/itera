@@ -1,0 +1,16 @@
+.col{
+    border: 1px solid #FF0000;
+    width: 100px;
+    float: left;
+    margin: 3px;
+
+}
+.row{
+    border: 1px solid #00FF00;
+    padding: 20px;
+    width: 500px;
+}
+
+._1, ._2, ._4, ._5, ._7, ._8{
+
+}
