@@ -1,40 +1,28 @@
 <?php
 class LanArtHtmlGenerator {
 
-    public $canvas = array(
-         '1' => '1'
-        ,'2' => '1'
-        ,'3' => '1'
-        ,'4' => '2'
-        ,'5' => '2'
-        ,'6' => '2'
-        ,'7' => '3'
-        ,'8' => '3'
-        ,'9' => '3'
-    );
-    /*public $grid = array(
-         '1' => '<div class="col">1</div>'
-        ,'2' => '<div class="col">2</div>'
-        ,'3' => '<div class="col">3</div>'
-        ,'4' => '<div class="col">4</div>'
-        ,'5' => '<div class="col">5</div>'
-        ,'6' => '<div class="col">6</div>'
-        ,'7' => '<div class="col">7</div>'
-        ,'8' => '<div class="col">8</div>'
-        ,'9' => '<div class="col">9</div>'
-    );*/
-    public $grid = array(
-         '1' => '<td class="cell">1</td>'
-        ,'2' => '<td class="cell">2</td>'
-        ,'3' => '<td class="cell">3</td>'
-        ,'4' => '<td class="cell">4</td>'
-        ,'5' => '<td class="cell">5</td>'
-        ,'6' => '<td class="cell">6</td>'
-        ,'7' => '<td class="cell">7</td>'
-        ,'8' => '<td class="cell">8</td>'
-        ,'9' => '<td class="cell">9</td>'
-    );
+    protected $row = 3;
+    protected $col = 3;
+
+    protected $canvas = array();
+
+    public $grid = array();
     public $result = '';
+
+    public function __construct(){
+        $mul = $this->row * $this->col;
+        for($i=1;$i<=$mul;$i++){
+            $this->grid[$i]='<td width="30%">'.$i.'</td>';
+        }
+
+        $column = 1;
+        for ($i=1;$i<=$this->row;$i++){
+            for ($j=1;$j<=$this->col;$j++){
+                $this->canvas[$column] = $i;
+                $column++;
+            }
+        }
+    }
 
     public function validate($array){
 
@@ -55,8 +43,6 @@ class LanArtHtmlGenerator {
         //$res = explode(',',substr($str, 0, -1));
         $res = explode(',',$str);
 
-        //var_dump($res);
-
         if($this->validate($res)){
 
             foreach ($array as $val){
@@ -67,7 +53,6 @@ class LanArtHtmlGenerator {
 
                 $str = $val['cells'];
                 $arr = explode(',',$str);
-
 
                 foreach ($arr as $value){
 
@@ -95,16 +80,12 @@ class LanArtHtmlGenerator {
                     $height += 1;
                     $weight = $three;
                 }
-
                 $min = min($arr);
-
-                //$height = $height * 32;
-                //$weight = $weight * 32;
 
                 foreach ($arr as $value){
                     if($value == $min){
-                        //$this->grid[$value] = '<div style="min-height: '.$height.'%; width: '.$weight.'%; text-align: '.$val['align'].'; display: table-cell; vertical-align:'.$val['valign'].'; color:'.$val['color'].'; background-color: '.$val['bgcolor'].'; float: left; ">'.$val['text'].'</div>';
-                        $this->grid[$value] = '<td class="cell" colspan="'.$weight.'" rowspan = "'.$height.'" bgcolor="'.$val['bgcolor'].'" align = "'.$val['align'].'" valign = "'.$val['valign'].'" style="color: #'.$val['color'].';">'.$val['text'].'</td>';
+
+                        $this->grid[$value] = '<td class="cell" colspan="'.$weight.'" rowspan = "'.$height.'" bgcolor="#'.$val['bgcolor'].'" align = "'.$val['align'].'" valign = "'.$val['valign'].'" style="color: #'.$val['color'].';">'.$val['text'].'</td>';
                     } else $this->grid[$value] = '<!-- empty -->';
                 }
             }
@@ -114,7 +95,7 @@ class LanArtHtmlGenerator {
 
     public function render($array){
 
-        $arr = $this->prepare($array);
+        if($arr = $this->prepare($array)){
         echo '<tr>';
         foreach ($arr as $key => $val){
             if ($key!= 9 && ($key%3) == 0){
@@ -122,5 +103,6 @@ class LanArtHtmlGenerator {
             } else echo $val;
         }
         echo '</tr>';
+        } else echo 'Enter correct array';
     }
 }

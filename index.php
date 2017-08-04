@@ -3,20 +3,19 @@ require_once 'classes.php';
 
 $array = array(
     array( 'text' => 'Текст красного цвета'
-    , 'cells' => '1,2,5,4'
+    , 'cells' => '1,2'
     , 'align' => 'center'
     , 'valign' => 'center'
     , 'color' => 'FF0000'
     , 'bgcolor' => '0000FF')
 
 , array( 'text' => 'Текст зеленого цвета'
-    , 'cells' => '8,9'
+    , 'cells' => '5,6'
     , 'align' => 'right'
     , 'valign' => 'bottom'
     , 'color' => '00FF00'
     , 'bgcolor' => 'FFFFFF')
 );
-
 ?>
 <!DOCTYPE html>
 <html>
